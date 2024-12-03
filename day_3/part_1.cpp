@@ -35,7 +35,7 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    file.close();  // Close the file
+    file.close();
     std::cout << "The total sum of multiplications is: " << sum << std::endl;
     return 0;
 }
