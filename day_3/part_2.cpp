@@ -40,10 +40,10 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
+  bool enable = true;
   while (std::getline(file, line)) {
     auto start = std::sregex_iterator(line.begin(), line.end(), re);
     auto end = std::sregex_iterator();
-    bool enable = true;
     for (std::sregex_iterator i = start; i != end; i++) {
       std::smatch match = *i;
       std::string mul = match.str();
