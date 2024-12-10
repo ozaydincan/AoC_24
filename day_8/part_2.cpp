@@ -7,6 +7,7 @@
 #include <unordered_set>
 #include <utility>
 #include <vector>
+
 using namespace std;
 
 class Antinode {
@@ -45,9 +46,7 @@ private:
   }
 
   void findAntinodes() {
-    for (const auto &freq_antennas : antenna_locations) {
-      const char freq = freq_antennas.first;
-      const auto &locations = freq_antennas.second;
+    for (const auto &[_, locations]: antenna_locations) {
 
       for (const auto &ant1 : locations) {
         for (const auto &ant2 : locations) {
