@@ -20,23 +20,23 @@ struct PairHash {
 class Trails {
 public:
   Trails(const vector<vector<int>> &v)
-      : hike_trails(v), row(hike_trails.size()), col(hike_trails[0].size()) {};
-  long int different_ways;
+      : hike_trails(v), row(hike_trails.size()), col(hike_trails[0].size()) {
+  }
+
   long int countWays() {
-    long int trail_head = 0;
+    long int count = 0;
     for (int i = 0; i < row; i++) {
       for (int j = 0; j < col; j++) {
         if (hike_trails[i][j] == 0) {
           vector<vector<bool>> visited(row, vector<bool>(col, false));
           unordered_set<pair<int, int>, PairHash> nines;
-          dfs(visited, i, j, 0, nines);
+          dfs(visited, i, j, 0, count, nines);
           cout << "For the trail head at {" << i << ',' << j
                << "} the score is " << nines.size() << '\n';
-          trail_head += nines.size();
         }
       }
     }
-    return trail_head;
+    return count;
   }
 
   void printTrails() {
@@ -52,8 +52,9 @@ private:
   vector<vector<int>> hike_trails;
   size_t row, col;
 
-  void dfs(vector<vector<bool>> visited, int x, int y, int target,
 
+  void dfs(vector<vector<bool>> visited, int x, int y, int target,
+           long int &count,
            unordered_set<pair<int, int>, PairHash> &nine_locations) {
     if (x < 0 || x >= row || y < 0 || y >= col) {
       return;
@@ -61,21 +62,22 @@ private:
 
     if (visited[x][y] || hike_trails[x][y] != target) {
       return;
-    }
+    } 
 
     if (target == 9) {
-      nine_locations.insert({x, y});
+      count++;
       return;
     }
 
     visited[x][y] = true;
-    dfs(visited, x - 1, y, target + 1, nine_locations); // up
-    dfs(visited, x + 1, y, target + 1, nine_locations); // down
-    dfs(visited, x, y + 1, target + 1, nine_locations); // right
-    dfs(visited, x, y - 1, target + 1, nine_locations); // left
+    dfs(visited, x - 1, y, target + 1, count, nine_locations); // up
+    dfs(visited, x + 1, y, target + 1, count, nine_locations); // down
+    dfs(visited, x, y + 1, target + 1, count, nine_locations); // right
+    dfs(visited, x, y - 1, target + 1, count, nine_locations); // left
 
     visited[x][y] = false;
   }
+
 };
 
 int main(int argc, char *argv[]) {
@@ -109,10 +111,9 @@ int main(int argc, char *argv[]) {
   file.close();
 
   Trails answer(buffer);
-  answer.printTrails();
   buffer.clear();
-
-  cout << "There are " << answer.countWays() << " reachable 9s " << endl;
+    
+  cout << answer.countWays()<<endl;
 
   return 0;
 }
