@@ -55,8 +55,8 @@ private:
 };
 
 int main(int argc, char *argv[]) {
-  if (argc != 2) {
-    cerr << "Program needs an <input_file>" << endl;
+  if (argc != 3) {
+    cerr << "Program needs an <input_file> and <loop_size>" << endl;
     return 1;
   }
 
@@ -66,8 +66,9 @@ int main(int argc, char *argv[]) {
     cerr << "Error opening file" << endl;
     return 2;
   }
-
-  Stones answer(75, file);
+  
+  const size_t loop_input = stoul(argv[2]);
+  Stones answer(loop_input, file);
 
   answer.blinkStones(answer.loop_size);
   unsigned long long total = 0;
